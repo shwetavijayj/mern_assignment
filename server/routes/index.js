@@ -61,7 +61,7 @@ router.post('/', function (req, res1, next) {
           //   if(err){
           //     res1.send({ 'Error in saving login details': err });
           //   }else{
-              res1.send({ responseToken: token, msg: 'User logged in successfully.', roleId: res.roleId, UserName: res.UserName, UserId: res.UserId });
+              res1.send({ responseToken: token, msg: 'User logged in successfully.', roleId: res.roleId, UserName: res.UserName, UserId: res.UserId,PersonalUniqueId:res.PersonalUniqueId });
           //   }
           // })
           

@@ -73,4 +73,28 @@ export class AdminHeaderComponent extends Component {
     }
 }
 
+export class OperatorHeader extends Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return(
+            <div>
+                <Navbar color="dark" light expand="md">
+                    <NavbarBrand onClick={this.home}><font color="white">Home</font></NavbarBrand>
+                    <Button color="link" onClick={this.createUser}><font color="white">Create User</font></Button>
+                    <Button color="link" onClick={this.addUserInfo}><font color="white">Add User Info</font></Button>
+                    <Nav className="ml-auto" navbar>
+                       
+                        <NavItem>
+                            <NavLink onClick={this.logout}><font color="white">Logout</font></NavLink>
+                        </NavItem>
+                    </Nav>
+                </Navbar>
+            </div>
+        )
+    }
+}
+
+
 export default HeaderComponent;

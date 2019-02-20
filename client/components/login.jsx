@@ -65,7 +65,12 @@ class LoginComponent extends Component {
                     history.push('/');
                 }
                 else if(res1.roleId === 3){
-                    history.push('/personalInfoUser');
+                    if(res1.PersonalUniqueId){
+                        history.push('/personalInfoUser');
+                    }else{
+                        history.push('/personalInfoUseredit');
+                    }
+                    
 
                 }
             }

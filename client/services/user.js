@@ -27,8 +27,8 @@ class userService {
         console.log("promise", promise);
         return promise;
     }
-    saveUserData(UserData){
-        fetch("http://localhost:8080/",
+    updateUserData(UserData){
+        fetch("http://localhost:8080/users/updateUserTemp",
             {
                 method: "POST",
                 headers: {

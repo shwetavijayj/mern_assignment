@@ -191,4 +191,31 @@ router.get('/getUserRole',function(req,response){
   }
 })
 
+
+router.post('/registerUserTemp',function(req,response){
+  if(mongoose){
+    updateUser.registerUserTemporary(req.body,(err,res)=>{
+      if(err){
+        response.send({ 'Error in Storing data.': err, statusCode: 403 });
+      }else{
+        response.send({msg:'Data saved successfully',data:res});
+      }
+    })
+  }else{
+    response.send({ msg: 'not connected to database', statusCode: 500 });
+  }
+})
+
+router.post('/updateUserTemp',function(req,response){
+  if(mongoose){
+    updateUser.updateTempUserDetails(req.body,(err,res)=>{
+      if(err){
+        response.send({ 'Error in Updating data.': err, statusCode: 403 })
+      }else{
+        response.send({msg:'Data updated successfully',data:res});
+      }
+    })
+  }
+})
+
 module.exports = router;

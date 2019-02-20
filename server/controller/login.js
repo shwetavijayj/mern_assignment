@@ -1,6 +1,6 @@
 var mongo = require('../mongoConnect');
 var userModel = mongo.mongoose.model('User', mongo.userSchema, "users");
-
+personModel = mongo.mongoose.model("personalSchema", mongo.personalSchema, "PersonalInfo");
 //authenticate user while sign-in and generate token
 function authenticateUser(data, callback) {
     console.log(data);
@@ -10,7 +10,20 @@ function authenticateUser(data, callback) {
         }
         else {
             if (res != null) {
-                callback(null, res);
+                
+                let id= {
+                    UserId: res.UserId
+                }
+                personModel.findOne(id,function(error,res2){
+                    if(error){
+                        callback(error);
+                    }
+                    else{
+                        res.PersonalUniqueId = res2.PersonalUniqueId;
+                        callback(null, res);
+                    }
+                })
+
             }
             else {
                 callback(null, null);

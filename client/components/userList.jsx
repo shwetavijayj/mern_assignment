@@ -50,12 +50,19 @@ class UserlistComponent extends Component {
             }
         });
     }
+    handleOnChange(e){
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        
+
+    }
     render() {
         
         return (
             <div>
                 <AdminHeaderComponent></AdminHeaderComponent>
                 <div className="container col-sm-6" style={{ 'paddingTop': '50px' }}>
+                   <input type="text" placeholder="Search.." name="searchText" onChange={this.handleOnChange.bind(this)}/>
                    <Card>
                    {
                        this.state.Users.map((usr, idx) => (
