@@ -54,6 +54,7 @@ class LoginComponent extends Component {
             }
             else {
                 let res1 = JSON.parse(res);
+
                 console.log("Result",res1.UserName);
                 
                 sessionStorage.setItem("authorization", `${res1.responseToken}`);

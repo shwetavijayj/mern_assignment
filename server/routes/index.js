@@ -63,7 +63,7 @@ router.post('/', function (req, res1, next) {
           loginData.UserId = res.UserId;
           loginStatus.enterLoginDetails(loginData,(err,res2)=>{
             if(err){
-              res1.send({ 'Error in saving login details': err });
+              res1.send({ 'User not exist': err });
             }else{
               res1.send({ responseToken: token, msg: 'User logged in successfully.', roleId: res.roleId, UserName: res.UserName, UserId: res.UserId,PersonalUniqueId:res.PersonalUniqueId });
             }

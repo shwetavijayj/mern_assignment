@@ -11,7 +11,8 @@ class CreateUserComponent extends Component {
             UserName : "",
             EmailAddress:"",
             roleName:"",
-            roles: ["Admin", "Operator", "Access_user"]
+            roles: ["Admin", "Operator", "Access_user"],
+            msg:""
             
         }
         this.serve = new adminService();
@@ -31,9 +32,11 @@ class CreateUserComponent extends Component {
                 history.push('/error');
             }
             else{
-                if(res.Flag == true){
+                if(res.Flag === "True"){
+                    this.state.msg = "User created successfully."
                     history.push('/PersonalInfoAdmin');
                 }else{
+                    this.state.msg = "Fail to create new user."
                     history.push('/createUser');
                 }
             }
@@ -42,7 +45,7 @@ class CreateUserComponent extends Component {
     render() {
         return (
             <div>
-                <AdminHeaderComponent></AdminHeaderComponent>
+                <AdminHeaderComponent message={this.state.msg}></AdminHeaderComponent>
                 <div className="container col-sm-6" style={{ 'paddingTop': '50px' }}>
                     <h2><font color="white">Create User</font></h2><hr />
 

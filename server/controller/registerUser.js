@@ -12,7 +12,7 @@ function registerUserTemporary(data, callback) {
             callback(err);
         }
         else {
-            data.isApproved = 1;
+            data.isApproved = 0;
             personModelTemp.create(data, function (err, res1) {
                 if (err) {
                     callback(err);

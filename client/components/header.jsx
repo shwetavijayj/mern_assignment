@@ -70,6 +70,10 @@ export class AdminHeaderComponent extends Component {
             }
         })
     }
+    onFocusHandler(){
+        setTimeout(()=>{this.refs.message, 10000});
+        return false;
+    }
     render() {
         return (
             <div>
@@ -79,6 +83,7 @@ export class AdminHeaderComponent extends Component {
                     <Button color="link" onClick={this.createUser}><font color="white">Create User</font></Button>
                     <Button color="link" onClick={this.createRole}><font color="white">Create Role</font></Button>
                     <Nav className="ml-auto" navbar>
+                       <div ref="message" onFocus={this.onFocusHandler}><font color="white">{this.props.message}</font></div>
                        
                         <NavItem>
                             <Button color="link" onClick={this.logout.bind(this)}><font color="white">Logout</font></Button>
