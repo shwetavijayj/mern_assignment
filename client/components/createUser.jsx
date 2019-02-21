@@ -28,7 +28,7 @@ class CreateUserComponent extends Component {
         console.log("Save button",newUser);
         this.serve.createUser(newUser,(err,res)=>{
             if (err) {
-                console.log("Error",err);
+                history.push('/error');
             }
             else{
                 if(res.Flag == true){

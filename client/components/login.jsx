@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { InputGroup, Input, Button } from 'reactstrap';
+
 import userService from '../services/user.js';
 import history from '../history';
 class LoginComponent extends Component {
@@ -45,13 +46,16 @@ class LoginComponent extends Component {
         }
         let temp2 = "";
         const history = this.props.history;
+        
+        
         this.serve.authenticateUser(UserData, (err, res) => {
             if (err) {
-                console.log("Error",err);
+                history.push('/error');
             }
             else {
                 let res1 = JSON.parse(res);
                 console.log("Result",res1.UserName);
+                
                 sessionStorage.setItem("authorization", `${res1.responseToken}`);
                 sessionStorage.setItem("roleId", `${res1.roleId}`);
                 sessionStorage.setItem("UserName", `${res1.UserName}`);

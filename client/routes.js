@@ -7,6 +7,7 @@ import UserlistComponent from './components/userList.jsx';
 import displayPersonalInfoComponent from './components/personInfoDisplay.jsx';
 import createUser from './components/createUser.jsx';
 import createRoleComponent from './components/createRole.jsx';
+import errorComp from './components/error.jsx';
 class App extends Component {
     render() {
         return (

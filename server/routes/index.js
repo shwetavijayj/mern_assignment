@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+const requestIp = require('request-ip');
 var mongoose = require('../mongoConnect');
 var authuser = require('../controller/login');
 var userInfo = require('../controller/getUsers');
-var createUser = require('../controller/createUser');
 var createToken = require('../jwtoken');
 var loginStatus = require('../controller/loginStatus');
+var checkToken = require('../controller/checkToken');
 let mobj = {
   'UserId': 0,
   'PersonalUniqueId': 1234567,
@@ -38,14 +39,16 @@ let mobj = {
 */
 router.post('/', function (req, res1, next) {
   console.log("req", req);
+  const clientIp = requestIp.getClientIp(req);
+  console.log("IP",clientIp);
   data = {
     UserName: req.body.UserName,
     Password: req.body.Password
   }
   loginData = {
     UserName:req.body.UserName,
-    DateTime:req.body.DateTime,
-    IPAddress:req.body.IPAddress
+    DateTime:new Date(),
+    IPAddress:clientIp
   }
   if (mongoose) {
     authuser.authenticateUser(data, (err, res) => {
@@ -56,14 +59,15 @@ router.post('/', function (req, res1, next) {
         if (res != null) {
           let token = createToken.createToken({ UserName: data.UserName, Password: data.Password });
           console.log(token);
-          // res1.render('index', { title: res });
-          // loginStatus.enterLoginDetails(loginData,(err,res1)=>{
-          //   if(err){
-          //     res1.send({ 'Error in saving login details': err });
-          //   }else{
+          loginData.token =token;
+          loginData.UserId = res.UserId;
+          loginStatus.enterLoginDetails(loginData,(err,res2)=>{
+            if(err){
+              res1.send({ 'Error in saving login details': err });
+            }else{
               res1.send({ responseToken: token, msg: 'User logged in successfully.', roleId: res.roleId, UserName: res.UserName, UserId: res.UserId,PersonalUniqueId:res.PersonalUniqueId });
-          //   }
-          // })
+            }
+          })
           
         }
         else {
@@ -79,6 +83,11 @@ router.post('/', function (req, res1, next) {
 });
 
 router.get('/:id', function (req, res) {
+  checkToken.checkToken({UserId:req.headers.userid,token:req.headers.authorization},(err,res1)=>{
+    if(err){
+      res.send({'User not authenticated':err,statusCode:500});
+    }
+    else{
   console.log(req.params);
   data = {
     UserId: req.params.id
@@ -100,8 +109,24 @@ router.get('/:id', function (req, res) {
   } else {
     res.send({ msg: 'not connected to mongo' });
   }
-
+    }
+  });
 });
+
+router.post('/logout',function (req,res){
+    userData={
+      UserId:req.headers.userid,
+      token:req.headers.authorization
+    }
+    checkToken.deleteToken(userData,(err,res1)=>{
+      if(err){
+        res.send({ err:'Error in deleting user info:' })
+      }
+      else{
+        res.send({ msg:'Successfully deleted user info' })
+      }
+    })
+})
 
 
 

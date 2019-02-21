@@ -78,8 +78,13 @@ var personalSchemaTemp = mongoose.Schema({
 var loginStatusSchema = mongoose.Schema({
     LoginStatusId: String,
     UserName:String,
-    DateTime:String,
+    DateTime:Date,
     IPAddress:String
+})
+
+var tokenSchema = mongoose.Schema({
+    UserId:String,
+    token:String
 })
 
 module.exports = {
@@ -88,5 +93,6 @@ module.exports = {
     userSchema,
     personalSchema,
     personalSchemaTemp,
-    loginStatusSchema
+    loginStatusSchema,
+    tokenSchema
 }

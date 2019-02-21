@@ -38,7 +38,7 @@ class createRoleComponent extends Component{
             }
             this.serve.createRole(newRole,(err,res)=>{
                 if (err) {
-                    console.log("Error",err);
+                    history.push('/error');
                 }
                 else{
                     if(res.Flag == true){
@@ -54,7 +54,7 @@ class createRoleComponent extends Component{
     componentDidMount(){
         this.serve.getAllUserRole((err,res)=>{
             if(err){
-                console.log("Error",err);
+                history.push('/error');
             }
             else{
                  this.setState({roles:res.data.data.data});

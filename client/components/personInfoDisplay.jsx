@@ -10,6 +10,7 @@ class displayPersonalInfoComponent extends Component {
         
         this.state = {
             states: data,
+            Gender1: ["Male", "Female", "Other"],
             maritalstatus1: ["Married", "Unmarried", "Divorced", "Widow", "Widower"],
             eduStatus1: ["Masters", "Phd", "Graduate", "Under-Graduate", "HSC", "SSC", "Illiterate"],
             Gender: "",
@@ -18,19 +19,20 @@ class displayPersonalInfoComponent extends Component {
             firstname: "",
             middlename: "",
             lastname: "",
-            gender: "",
-            dob: 0,
+           
+            dob: "",
             age: 0,
             addr1: "",
             addr2: "",
             addr3: "",
-            city: "",
+            City: "",
             state1: "",
-            pin: 0,
-            phone: 0,
-            mobile: 0,
-            PhysicalDisability:"",
-            Birthsign:"",
+            Pincode: 0,
+            Phone: 0,
+            Mobile: 0,
+            PhysicalDisability:"NA",
+            Birthsign:"NA",
+            PersonalUniqueId:"",
             readOnly: true,
             showUButton: false,
             showEButton:true
@@ -57,18 +59,19 @@ class displayPersonalInfoComponent extends Component {
                     firstname: data[0].FullName.fname,
                     middlename: data[0].FullName.mname,
                     lastname: data[0].FullName.lname,
-                    gender: data[0].Gender,
+                    Gender: data[0].Gender,
                     dob: data[0].DateOfBirth,
                     age: data[0].Age,
-                    addr1: data[0].Address.addr1,
-                    addr2: data[0].Address.addr2,
-                    addr3: data[0].Address.addr3,
-                    city: data[0].City,
+                    addr1: data[0].Address.Addr1,
+                    addr2: data[0].Address.Addr2,
+                    addr3: data[0].Address.Addr3,
+                    City: data[0].City,
                     state1: data[0].State,
-                    pin: data[0].Pincode,
-                    phone: data[0].Phone,
-                    mobile: data[0].Mobile,
+                    Pincode: data[0].Pincode,
+                    Phone: data[0].Phone,
+                    Mobile: data[0].Mobile,
                     Birthsign:data[0].BirthSign,
+                    PersonalUniqueId:data[0].PersonalUniqueId,
                     PhysicalDisability:data[0].PhysicalDisability
                 })  
             });
@@ -78,13 +81,14 @@ class displayPersonalInfoComponent extends Component {
         this.setState({ [name]: value })
     }
     onClickSave(){
-        userData = {
+        let userData = {
+            PersonalUniqueId:this.state.PersonalUniqueId,
         FullName: {
             fname: this.state.firstname,
             mname: this.state.middlename,
             lname: this.state.lastname
         },
-        Gender: this.state.gender,
+        Gender: this.state.Gender,
         DateOfBirth: this.state.dob,
         Age: this.state.age,
         Address: {
@@ -92,19 +96,20 @@ class displayPersonalInfoComponent extends Component {
             addr2:this.state.addr2,
             addr3:this.state.addr3
         },
-        City: this.state.city,
+        City: this.state.City,
         State: this.state.state1,
-        Pincode: this.state.pin,
-        Phone: this.state.phone,
-        Mobile: this.state.mobile,
-        PhisicalDisability: this.state.PhisicalDisability,
+        Pincode: this.state.Pincode,
+        Phone: this.state.Phone,
+        Mobile: this.state.Mobile,
+        PhysicalDisability: this.state.PhysicalDisability,
         MaritalStatus: this.state.maritalstatus,
         EduStatus: this.state.eduStatus,
         BirthSign: this.state.Birthsign,
+        UserName:''
         }
         this.serve.updateUserData(userData,(err,res)=>{
             if (err) {
-                console.log("Error",err);
+                history.push('/error');
             }
             else{
                 
@@ -133,33 +138,44 @@ class displayPersonalInfoComponent extends Component {
                         <Input placeholder="Middle Name" type="text" readOnly={this.state.readOnly} name="middlename" onChange={this.handleOnChange.bind(this)} defaultValue={this.state.middlename} />
                     </div>
                     <div style={{ 'width': '32%', 'float': 'left' }}>
-                        <Input placeholder="Last Name" type="text" readOnly={this.state.readOnly} name="lastname" defaultValue={this.state.lastname} />
+                        <Input placeholder="Last Name" type="text" readOnly={this.state.readOnly} name="lastname" defaultValue={this.state.lastname} 
+                        onChange={this.handleOnChange.bind(this)}/>
                     </div>
                     <hr />
                     <div style={{ 'width': '33%', 'float': 'left' }}>
-                        <Input type="text" name="gender" readOnly={this.state.readOnly} placeholder="gender" defaultValue={this.state.gender}>
-                            <option>{this.state.gender}</option>
-                        </Input>
+                    { this.state.showUButton ? 
+                    <Input type="select" name="Gender" placeholder="Gender" onChange={this.handleOnChange.bind(this)}>
+                    <option>{this.state.Gender}</option>
+                    {this.state.Gender1.map((c, i) => (
+                        <option key={i} data={c}>{c}</option>
+                    ))
+                    }
+                </Input>
+                :
+                        <Input type="text" name="Gender" readOnly={this.state.readOnly} placeholder="Gender" defaultValue={this.state.Gender} />
+                            
+                }
                     </div>
                     <div style={{ 'width': '32%', 'float': 'left' }}>
-                        <Input type="text" placeholder="Date of Birth" readOnly={this.state.readOnly} name="dob" defaultValue={this.state.dob}
+                        <Input type="text" placeholder="Date of Birth" readOnly={this.state.readOnly} name="dob" defaultValue={this.state.dob} onChange={this.handleOnChange.bind(this)}
                         />
                     </div>
                     <div style={{ 'width': '32%', 'float': 'left' }}>
-                        <Input type="text" readOnly placeholder="Age" readOnly={this.state.readOnly} name="age" defaultValue={this.state.age} />
+                        <Input type="text" readOnly placeholder="Age" readOnly={this.state.readOnly} name="age" defaultValue={this.state.age} onChange={this.handleOnChange.bind(this)} />
                     </div> <br />
                     <hr />
                     <font color="white"><label>Address</label></font>
                     <div style={{ 'width': '97%', 'float': 'left' }}>
-                        <Input type="text" readOnly={this.state.readOnly} placeholder="Address Line 1" name="addr1" defaultValue={this.state.addr1} /><br />
-                        <Input type="text" readOnly={this.state.readOnly} placeholder="Address Line 2" name="addr2" defaultValue={this.state.addr2} /><br />
-                        <Input type="text" readOnly={this.state.readOnly} placeholder="Address Line 3" name="addr3" defaultValue={this.state.addr3} /><br />
-                        <Input type="text" readOnly={this.state.readOnly} placeholder="City dropdown" name="city" defaultValue={this.state.city} />
+                        <Input type="text" readOnly={this.state.readOnly} placeholder="Address Line 1" name="addr1" defaultValue={this.state.addr1} onChange={this.handleOnChange.bind(this)}/><br />
+
+                        <Input type="text" readOnly={this.state.readOnly} placeholder="Address Line 2" name="addr2" defaultValue={this.state.addr2} onChange={this.handleOnChange.bind(this)}/><br />
+                        <Input type="text" readOnly={this.state.readOnly} placeholder="Address Line 3" name="addr3" defaultValue={this.state.addr3} onChange={this.handleOnChange.bind(this)}/><br />
+                        <Input type="text" readOnly={this.state.readOnly} placeholder="City" name="City" defaultValue={this.state.City} onChange={this.handleOnChange.bind(this)}/>
                     </div>
                     <div style={{ 'width': '48.5%', 'float': 'left' }}>
                         
                             { this.state.showUButton ? 
-                                <Input type="select" name="state1">
+                                <Input type="select" name="state1" onChange={this.handleOnChange.bind(this)}>
                                 <option>{this.state.state1}</option>
                                 {
                                     (Object.values(this.state.states)).map((c, i) => (
@@ -168,23 +184,23 @@ class displayPersonalInfoComponent extends Component {
                                 }
                             </Input>
                                 
-                                :  <Input type="text" name="state1" readOnly={this.state.readOnly} defaultValue={this.state.state1} />} 
+                                :  <Input type="text" name="state1" readOnly={this.state.readOnly} defaultValue={this.state.state1} onChange={this.handleOnChange.bind(this)}/>} 
                         
                     </div>
                     <div style={{ 'width': '48.5%', 'float': 'left' }}>
-                        <Input type="text" placeholder="Pincode" readOnly={this.state.readOnly} name="pin" defaultvalue={this.state.pin} />
+                        <Input type="text" placeholder="Pincode" readOnly={this.state.readOnly} name="Pincode" defaultValue={this.state.Pincode} onChange={this.handleOnChange.bind(this)}/>
                     </div>
                     <div style={{ 'width': '48.5%', 'float': 'left' }}>
-                        <Input type="text" placeholder="Phone Number" readOnly={this.state.readOnly} name="phone" defaultvalue={this.state.phone} />
+                        <Input type="text" placeholder="Phone Number" readOnly={this.state.readOnly} name="Phone" defaultValue={this.state.Phone} onChange={this.handleOnChange.bind(this)}/>
                     </div>
                     <div style={{ 'width': '48.5%', 'float': 'left' }}>
-                        <Input type="text" placeholder="Mobile Number" readOnly={this.state.readOnly} name="mobile" defaultvalue={this.state.mobile} />
+                        <Input type="text" placeholder="Mobile Number" readOnly={this.state.readOnly} name="Mobile" defaultValue={this.state.Mobile} onChange={this.handleOnChange.bind(this)}/>
                     </div>
                     <hr />
                     <div style={{ 'width': '48.5%', 'float': 'left' }}>
                         <small><font color="white">Marital Status</font></small>
                         { this.state.showUButton ? 
-                        <Input type="select" name="maritalstatus">
+                        <Input type="select" name="maritalstatus" onChange={this.handleOnChange.bind(this)}>
                         <option>{this.state.maritalstatus}</option>
                         {this.state.maritalstatus1.map((c, i) => (
                             <option key={i} data={c}>{c}</option>
@@ -192,7 +208,7 @@ class displayPersonalInfoComponent extends Component {
                         }
                     </Input>
                         :
-                        <Input type="text" name="maritalstatus" readOnly={this.state.readOnly} defaultValue={this.state.maritalstatus}/>
+                        <Input type="text" name="maritalstatus" readOnly={this.state.readOnly} defaultValue={this.state.maritalstatus} onChange={this.handleOnChange.bind(this)}/>
                         }
                         
                             
@@ -201,7 +217,7 @@ class displayPersonalInfoComponent extends Component {
                     <div style={{ 'width': '48.5%', 'float': 'left' }}>
                         <small><font color="white">Educational Status</font></small>
                         { this.state.showUButton ? 
-                        <Input type="select" name="eduStatus">
+                        <Input type="select" name="eduStatus" onChange={this.handleOnChange.bind(this)}>
                         <option>{this.state.eduStatus}</option>
                         {this.state.eduStatus1.map((c, i) => (
                             <option key={i} data={c}>{c}</option>
@@ -209,9 +225,17 @@ class displayPersonalInfoComponent extends Component {
                         }
                     </Input>
 
-                        :<Input type="text" name="eduStatus" readOnly={this.state.readOnly} defaultValue={this.state.eduStatus} />
+                        :<Input type="text" name="eduStatus" readOnly={this.state.readOnly} defaultValue={this.state.eduStatus} onChange={this.handleOnChange.bind(this)}/>
                             
                     } 
+                    </div>
+                    <div style={{ 'width': '97%', 'float': 'left' }}>
+                    <div>
+                        <Input type="text" placeholder="Birthsign" readOnly={this.state.readOnly} name="Birthsign" defaultValue={this.state.Birthsign} onChange={this.handleOnChange.bind(this)}/>
+                    </div>
+                    <div>
+                        <Input type="text" placeholder="PhysicalDisability" readOnly={this.state.readOnly} name="PhysicalDisability" defaultValue={this.state.PhysicalDisability} onChange={this.handleOnChange.bind(this)}/>
+                    </div>
                     </div>
                     { this.state.showEButton ?  <Button color="success" onClick={this.onClickEdit.bind(this)} >Edit</Button>: null }
                     

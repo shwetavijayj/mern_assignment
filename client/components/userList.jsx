@@ -10,7 +10,8 @@ class UserlistComponent extends Component {
         this.state = {
             Users :[],
             collapse: false,
-            user1:""
+            user1:"",
+            searchText:""
         }
         
         this.serve = new adminService();
@@ -22,7 +23,7 @@ class UserlistComponent extends Component {
         console.log("data",e);
         this.serve.saveData(e,(err,res)=>{
             if(err){
-                console.log("Please redirect to appropriate page.")
+                history.push('/error');
             }
             else{
                 console.log("Data Saved suuccessfully.")
@@ -32,7 +33,7 @@ class UserlistComponent extends Component {
       reject(e){
       this.serve.rejectData(e,(err,res)=>{
           if(err){
-            console.log("Please redirect to appropriate page.");
+            history.push('/error');
           }
           else{
             console.log("Response sent to user");
@@ -43,7 +44,7 @@ class UserlistComponent extends Component {
         // console.log("Hello");
         this.serve.getUserData((err,res)=>{
             if(err){
-                console.log("Please redirect to appropriate page.");
+                history.push('/error');
             }else{
                 this.setState({Users:res.result.data})
                 console.log("Users",this.state.Users);
@@ -57,15 +58,17 @@ class UserlistComponent extends Component {
 
     }
     render() {
-        
+        let filterUserList = this.state.Users.filter((user) => {
+            return user.FullName.fname.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1;
+        })
         return (
             <div>
                 <AdminHeaderComponent></AdminHeaderComponent>
                 <div className="container col-sm-6" style={{ 'paddingTop': '50px' }}>
-                   <input type="text" placeholder="Search.." name="searchText" onChange={this.handleOnChange.bind(this)}/>
+                   <input type="text" placeholder="Search.." name="searchText" value={this.state.searchText} onChange={this.handleOnChange.bind(this)}/>
                    <Card>
                    {
-                       this.state.Users.map((usr, idx) => (
+                       filterUserList.map((usr, idx) => (
                            
                         <CardBody>
                         <CardTitle>UserId:&nbsp;{usr.UserId}</CardTitle>

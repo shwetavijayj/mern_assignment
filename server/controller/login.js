@@ -14,16 +14,27 @@ function authenticateUser(data, callback) {
                 let id= {
                     UserId: res.UserId
                 }
-                personModel.findOne(id,function(error,res2){
-                    if(error){
-                        callback(error);
-                    }
-                    else{
-                        res.PersonalUniqueId = res2.PersonalUniqueId;
-                        callback(null, res);
-                    }
-                })
-
+                if(res.roleId == 3){
+                    personModel.findOne(id,function(error,res2){
+                        if(error){
+                            callback(error);
+                        }
+                        else{
+                            if(res2 === null){
+                                res.PersonalUniqueId = null;
+                                callback(null, res);
+                            }else{
+                                res.PersonalUniqueId = res2.PersonalUniqueId;
+                                callback(null, res);
+                            }
+                            
+                        }
+                    })
+                }
+                else{
+                    res.PersonalUniqueId = null;
+                            callback(null, res);
+                }
             }
             else {
                 callback(null, null);

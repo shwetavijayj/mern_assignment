@@ -20,7 +20,9 @@ class userService {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
                 },
                 body: JSON.stringify(UserData)
             });
@@ -28,11 +30,14 @@ class userService {
         return promise;
     }
     updateUserData(UserData){
+        UserData.UserName = sessionStorage.getItem("UserName");
         fetch("http://localhost:8080/users/updateUserTemp",
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
                 },
                 body: JSON.stringify(UserData)
             }).then(response => response.json())

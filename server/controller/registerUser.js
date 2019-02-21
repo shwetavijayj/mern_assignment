@@ -25,6 +25,28 @@ function registerUserTemporary(data, callback) {
     });
 }
 
+//direct per. storage
+function registerUserAdmin(data,callback){
+    data.PersonalUniqueId = uniqid.process();
+    console.log(userData);
+            personModel.create(userData, function (err1, resp) {
+                if (err1) {
+                    callback(err1)
+                }
+                else {
+                    console.log("data", data);
+                    personModelTemp.deleteOne({ UserId: data.UserId }, function (error, response) {
+                        if (error) {
+                            callback({ error: 'Error while deleting records from temp storage' });
+                        }
+                        else {
+                            callback(null, 'Requested data saved successfully and removed from temporary storage..')
+                        }
+                    })
+                }
+            })
+}
+
 //api to store user at permanant location and deleting it from temp location after admin approval
 function registerUser(data, callback) {
     personModelTemp.findOne({ UserId: data.UserId }, function (err, res) {
@@ -165,5 +187,6 @@ module.exports = {
     getDatafromTempStore,
     updateUserDetails,
     updateTempUserDetails,
-    rejectUserRequest
+    rejectUserRequest,
+    registerUserAdmin
 }

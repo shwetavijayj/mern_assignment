@@ -5,7 +5,9 @@ class adminService{
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
                 },
                 body: JSON.stringify(newUserData)
             }).then(response => response.json())
@@ -18,7 +20,9 @@ class adminService{
             {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
                 }
             }).then(response => response.json())
             .then(resData => {
@@ -32,7 +36,41 @@ class adminService{
         {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "authorization": sessionStorage.getItem("authorization"),
+                "UserId":sessionStorage.getItem("UserId")
+            },
+            body: JSON.stringify(userData)
+        }).then(response => response.json())
+        .then(resData => {
+            console.log("result",resData);
+            callback(null,{'result':resData});
+        }); 
+    }
+    saveData1(userData,callback){
+        fetch("http://localhost:8080/users/registerUser1",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": sessionStorage.getItem("authorization"),
+                "UserId":sessionStorage.getItem("UserId")
+            },
+            body: JSON.stringify(userData)
+        }).then(response => response.json())
+        .then(resData => {
+            console.log("result",resData);
+            callback(null,{'result':resData});
+        }); 
+    }
+    saveDataUser(userData,callback){
+        fetch("http://localhost:8080/users/registerUserTemp",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": sessionStorage.getItem("authorization"),
+                "UserId":sessionStorage.getItem("UserId")
             },
             body: JSON.stringify(userData)
         }).then(response => response.json())
@@ -46,7 +84,9 @@ class adminService{
         {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "authorization": sessionStorage.getItem("authorization"),
+                "UserId":sessionStorage.getItem("UserId")
             },
             body: JSON.stringify(userData)
         }).then(response => response.json())
@@ -60,7 +100,9 @@ class adminService{
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
                 },
                 body: JSON.stringify(newRole)
             }).then(response => response.json())
@@ -73,7 +115,9 @@ class adminService{
             {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
                 },
             }).then(response => response.json())
             .then(resData => {
