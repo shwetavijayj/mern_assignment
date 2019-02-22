@@ -40,15 +40,15 @@ let mobj = {
 router.post('/', function (req, res1, next) {
   console.log("req", req);
   const clientIp = requestIp.getClientIp(req);
-  console.log("IP",clientIp);
+  console.log("IP", clientIp);
   data = {
     UserName: req.body.UserName,
     Password: req.body.Password
   }
   loginData = {
-    UserName:req.body.UserName,
-    DateTime:new Date(),
-    IPAddress:clientIp
+    UserName: req.body.UserName,
+    DateTime: new Date(),
+    IPAddress: clientIp
   }
   if (mongoose) {
     authuser.authenticateUser(data, (err, res) => {
@@ -59,16 +59,16 @@ router.post('/', function (req, res1, next) {
         if (res != null) {
           let token = createToken.createToken({ UserName: data.UserName, Password: data.Password });
           console.log(token);
-          loginData.token =token;
+          loginData.token = token;
           loginData.UserId = res.UserId;
-          loginStatus.enterLoginDetails(loginData,(err,res2)=>{
-            if(err){
+          loginStatus.enterLoginDetails(loginData, (err, res2) => {
+            if (err) {
               res1.send({ 'User not exist': err });
-            }else{
-              res1.send({ responseToken: token, msg: 'User logged in successfully.', roleId: res.roleId, UserName: res.UserName, UserId: res.UserId,PersonalUniqueId:res.PersonalUniqueId });
+            } else {
+              res1.send({ responseToken: token, msg: 'User logged in successfully.', roleId: res.roleId, UserName: res.UserName, UserId: res.UserId, PersonalUniqueId: res.PersonalUniqueId });
             }
           })
-          
+
         }
         else {
           res1.send({ msg: 'User not exist' });
@@ -83,49 +83,49 @@ router.post('/', function (req, res1, next) {
 });
 
 router.get('/:id', function (req, res) {
-  checkToken.checkToken({UserId:req.headers.userid,token:req.headers.authorization},(err,res1)=>{
-    if(err){
-      res.send({'User not authenticated':err,statusCode:500});
+  checkToken.checkToken({ UserId: req.headers.userid, token: req.headers.authorization }, (err, res1) => {
+    if (err) {
+      res.send({ 'User not authenticated': err, statusCode: 500 });
     }
-    else{
-  console.log(req.params);
-  data = {
-    UserId: req.params.id
-  }
-  if (mongoose) {
-    userInfo.getUserInfo(data, (err, resonse) => {
-      if (err) {
-        res.send({ 'Error in fetching user info:': err })
+    else {
+      console.log(req.params);
+      data = {
+        UserId: req.params.id
       }
-      else {
-        if (res != null) {
-          res.send({ 'data': resonse });
-        }
-        else {
-          res.send({ msg: 'User not exist' })
-        }
+      if (mongoose) {
+        userInfo.getUserInfo(data, (err, resonse) => {
+          if (err) {
+            res.send({ 'Error in fetching user info:': err })
+          }
+          else {
+            if (res != null) {
+              res.send({ 'data': resonse });
+            }
+            else {
+              res.send({ msg: 'User not exist' })
+            }
+          }
+        })
+      } else {
+        res.send({ msg: 'not connected to mongo' });
       }
-    })
-  } else {
-    res.send({ msg: 'not connected to mongo' });
-  }
     }
   });
 });
 
-router.post('/logout',function (req,res){
-    userData={
-      UserId:req.headers.userid,
-      token:req.headers.authorization
+router.post('/logout', function (req, res) {
+  userData = {
+    UserId: req.headers.userid,
+    token: req.headers.authorization
+  }
+  checkToken.deleteToken(userData, (err, res1) => {
+    if (err) {
+      res.send({ err: 'Error in deleting user info:' })
     }
-    checkToken.deleteToken(userData,(err,res1)=>{
-      if(err){
-        res.send({ err:'Error in deleting user info:' })
-      }
-      else{
-        res.send({ msg:'Successfully deleted user info' })
-      }
-    })
+    else {
+      res.send({ msg: 'Successfully deleted user info' })
+    }
+  })
 })
 
 

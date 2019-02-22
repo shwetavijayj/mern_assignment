@@ -29,15 +29,15 @@ function getRole(data, callback) {
     })
 }
 
-function getAllRole(callback){
-    roleModel.find(function(err,res){
-       if(err){
-           callback({ status: 404, data: err })
-       } 
-       else{
-           console.log(res);
-           callback(null,{status:200,data:res});
-       }
+function getAllRole(callback) {
+    roleModel.find(function (err, res) {
+        if (err) {
+            callback({ status: 404, data: err })
+        }
+        else {
+            console.log(res);
+            callback(null, { status: 200, data: res });
+        }
     })
 }
 

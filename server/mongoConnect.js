@@ -67,7 +67,7 @@ var personalSchemaTemp = mongoose.Schema({
     Pincode: Number,
     Phone: Number,
     Mobile: Number,
-    PhisicalDisability: String,
+    PhysicalDisability: String,
     MaritalStatus: String,
     EduStatus: String,
     Birthsign: String,
@@ -77,14 +77,14 @@ var personalSchemaTemp = mongoose.Schema({
 
 var loginStatusSchema = mongoose.Schema({
     LoginStatusId: String,
-    UserName:String,
-    DateTime:Date,
-    IPAddress:String
+    UserName: String,
+    DateTime: Date,
+    IPAddress: String
 })
 
 var tokenSchema = mongoose.Schema({
-    UserId:String,
-    token:String
+    UserId: String,
+    token: String
 })
 
 module.exports = {

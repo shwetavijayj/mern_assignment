@@ -29,7 +29,7 @@ class userService {
         console.log("promise", promise);
         return promise;
     }
-    updateUserData(UserData){
+    updateUserData(UserData,callback){
         UserData.UserName = sessionStorage.getItem("UserName");
         fetch("http://localhost:8080/users/updateUserTemp",
             {

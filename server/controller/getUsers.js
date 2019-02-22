@@ -29,9 +29,16 @@ function getAllUserInformation(callback) {
     personModel.find(function (err, res) {
         if (err) {
             callback(err);
-        }
-        else {
-            callback(null, res);
+        } else {
+            getFormattedData(res, (err, result) => {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    callback(null, result);
+                }
+            })
+
         }
     })
 }
@@ -45,54 +52,54 @@ function getAllTempUsersInformation(callback) {
         if (err) {
             callback(err);
         } else {
-            getFormattedData(res,(err,result)=>{
-                if(err){
+            getFormattedData(res, (err, result) => {
+                if (err) {
                     callback(err);
                 }
-                else{
-                    callback(null,result);
+                else {
+                    callback(null, result);
                 }
             })
-           
+
         }
     })
 }
 
-function getFormattedData(data,callback){
+function getFormattedData(data, callback) {
     console.log(data);
-    let result=[];
+    let result = [];
     data.forEach(element => {
         result.push({
-            UserId:element.UserId,
-            PersonalUniqueId:element.PersonalUniqueId,
-            FullName:{
-                fname:element.FullName.fname,
-                mname:element.FullName.mname,
-                lname:element.FullName.lname
+            UserId: element.UserId,
+            PersonalUniqueId: element.PersonalUniqueId,
+            FullName: {
+                fname: element.FullName.fname,
+                mname: element.FullName.mname,
+                lname: element.FullName.lname
             },
-            Gender:element.Gender,
-            DateOfBirth:element.DateOfBirth,
-            Age:element.Age,
-            Address:{
-                Addr1: element.Address.addr1,
-                Addr2: element.Address.addr2,
-                Addr3: element.Address.addr3
+            Gender: element.Gender,
+            DateOfBirth: element.DateOfBirth,
+            Age: element.Age,
+            Address: {
+                Addr1: element.Address.Addr1,
+                Addr2: element.Address.Addr2,
+                Addr3: element.Address.Addr3
             },
-            City:element.City,
-            State:element.State,
-            Pincode:element.Pincode,
-            Phone:element.Phone,
-            Mobile:element.Mobile,
-            PhysicalDisability:element.PhysicalDisability,
-            MaritalStatus:element.MaritalStatus,
-            EduStatus:element.EduStatus,
-            Birthsign:element.Birthsign,
-            isApproved:element.isApproved
+            City: element.City,
+            State: element.State,
+            Pincode: element.Pincode,
+            Phone: element.Phone,
+            Mobile: element.Mobile,
+            PhysicalDisability: element.PhysicalDisability,
+            MaritalStatus: element.MaritalStatus,
+            EduStatus: element.EduStatus,
+            Birthsign: element.Birthsign,
+            isApproved: element.isApproved
         })
-       
+
     });
     console.log(result);
-    callback(null,result);
+    callback(null, result);
 }
 
 module.exports = {

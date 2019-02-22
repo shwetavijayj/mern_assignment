@@ -7,6 +7,7 @@ personModel = mongo.mongoose.model("personalSchema", mongo.personalSchema, "Pers
 function registerUserTemporary(data, callback) {
     //1. before passing data to this function make sure that UserId is added to data object which will be fetched seperate by getUserId api.
     //then add data to temp collection
+
     createuser.getUser(data.UserId, function (err, res) {
         if (err) {
             callback(err);
@@ -26,25 +27,17 @@ function registerUserTemporary(data, callback) {
 }
 
 //direct per. storage
-function registerUserAdmin(data,callback){
+function registerUserAdmin(data, callback) {
     data.PersonalUniqueId = uniqid.process();
-    console.log(userData);
-            personModel.create(userData, function (err1, resp) {
-                if (err1) {
-                    callback(err1)
-                }
-                else {
-                    console.log("data", data);
-                    personModelTemp.deleteOne({ UserId: data.UserId }, function (error, response) {
-                        if (error) {
-                            callback({ error: 'Error while deleting records from temp storage' });
-                        }
-                        else {
-                            callback(null, 'Requested data saved successfully and removed from temporary storage..')
-                        }
-                    })
-                }
-            })
+    personModel.create(data, function (err1, resp) {
+        if (err1) {
+            callback(err1)
+        }
+        else {
+            callback(null, 'Requested data saved successfully and removed from temporary storage..')
+
+        }
+    })
 }
 
 //api to store user at permanant location and deleting it from temp location after admin approval
@@ -99,12 +92,12 @@ function registerUser(data, callback) {
     })
 }
 //api to reject user by admin
-function rejectUserRequest(data,callback){
-    console.log("data",data);
-    personModelTemp.updateOne({UserId:data.UserId},{$set:{isApproved:0}},(err,res)=>{
-        if(err){
-            console.log("Error",err);
-        }else{
+function rejectUserRequest(data, callback) {
+    console.log("data", data);
+    personModelTemp.updateOne({ UserId: data.UserId }, { $set: { isApproved: 0 } }, (err, res) => {
+        if (err) {
+            console.log("Error", err);
+        } else {
             console.log(res);
         }
     })
@@ -133,8 +126,20 @@ function updateUserDetails(data, callback) {
         }
         else {
             if (res != null) {
-                personModel.updateOne(data, function (err, res1) {
-                    callback(null, res1);
+                personModel.updateOne(condition, data, function (err, res1) {
+                    if (err) {
+
+                    }
+                    else {
+                        personModelTemp.deleteOne(condition, function (error, response) {
+                            if (error) {
+                                callback({ error: 'Error while deleting records from temp storage' });
+                            }
+                            else {
+                                callback(null, 'Requested data saved successfully and removed from temporary storage..')
+                            }
+                        })
+                    }
                 })
             }
         }

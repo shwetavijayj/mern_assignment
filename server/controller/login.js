@@ -10,30 +10,30 @@ function authenticateUser(data, callback) {
         }
         else {
             if (res != null) {
-                
-                let id= {
+
+                let id = {
                     UserId: res.UserId
                 }
-                if(res.roleId == 3){
-                    personModel.findOne(id,function(error,res2){
-                        if(error){
+                if (res.roleId == 3) {
+                    personModel.findOne(id, function (error, res2) {
+                        if (error) {
                             callback(error);
                         }
-                        else{
-                            if(res2 === null){
+                        else {
+                            if (res2 === null) {
                                 res.PersonalUniqueId = null;
                                 callback(null, res);
-                            }else{
+                            } else {
                                 res.PersonalUniqueId = res2.PersonalUniqueId;
                                 callback(null, res);
                             }
-                            
+
                         }
                     })
                 }
-                else{
+                else {
                     res.PersonalUniqueId = null;
-                            callback(null, res);
+                    callback(null, res);
                 }
             }
             else {

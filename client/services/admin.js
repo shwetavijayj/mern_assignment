@@ -31,8 +31,54 @@ class adminService{
             });
         
     } 
+    getAllUserData(callback){
+        fetch("http://localhost:8080/users/getAllUsers",
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": sessionStorage.getItem("authorization"),
+                    "UserId":sessionStorage.getItem("UserId")
+                }
+            }).then(response => response.json())
+            .then(resData => {
+                console.log("result",resData);
+                callback(null,{'result':resData});
+            });
+        
+    } 
+    getIncompleteUsers(callback){
+        fetch("http://localhost:8080/users/getincompleteUsers",
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": sessionStorage.getItem("authorization"),
+                "UserId":sessionStorage.getItem("UserId")
+            }
+        }).then(response => response.json())
+        .then(resData => {
+            callback(null,{'result':resData.data});
+        });  
+    }
     saveData(userData,callback){
         fetch("http://localhost:8080/users/registerUser",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "authorization": sessionStorage.getItem("authorization"),
+                "UserId":sessionStorage.getItem("UserId")
+            },
+            body: JSON.stringify(userData)
+        }).then(response => response.json())
+        .then(resData => {
+            console.log("result",resData);
+            callback(null,{'result':resData});
+        }); 
+    }
+    updateUser(userData,callback){
+        fetch("http://localhost:8080/users/updateUser",
         {
             method: "POST",
             headers: {

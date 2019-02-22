@@ -15,22 +15,22 @@ class HeaderComponent extends Component {
         super(props);
         this.serve = new LogOutService()
     }
-    logout(){
-        this.serve.logout((err,res)=>{
-            if(err){
+    logout() {
+        this.serve.logout((err, res) => {
+            if (err) {
                 history.push('/error');
             }
-            else{
+            else {
                 history.push('/');
             }
-        })  
+        })
     }
     render() {
         return (
             <div>
                 <Navbar color="dark" light expand="md">
                     <NavbarBrand href="/"><font color="white">Home</font></NavbarBrand>
-                  
+
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <Button color="link" onClick={this.logout.bind(this)}><font color="white">Logout</font></Button>
@@ -45,33 +45,36 @@ class HeaderComponent extends Component {
 export class AdminHeaderComponent extends Component {
     constructor(props) {
         super(props);
-       this.serve = new LogOutService();
+        this.serve = new LogOutService();
     }
 
-    createUser(){
+    createUser() {
         history.push('/createUser');
     }
-    createRole(){
+    createRole() {
         history.push('/createRole');
     }
-    addUserInfo(){
-        history.push('personalInfoUseredit');
+    addUserInfo() {
+        history.push('/adduserinfo');
     }
-    home(){
+    showUserInfo() {
+        history.push('/showAllUsers');
+    }
+    home() {
         history.push('/PersonalInfoAdmin');
     }
-    logout(){
-        this.serve.logout((err,res)=>{
-            if(err){
+    logout() {
+        this.serve.logout((err, res) => {
+            if (err) {
                 history.push('/error');
             }
-            else{
+            else {
                 history.push('/');
             }
         })
     }
-    onFocusHandler(){
-        setTimeout(()=>{this.refs.message, 10000});
+    onFocusHandler() {
+        setTimeout(() => { this.refs.message, 10000 });
         return false;
     }
     render() {
@@ -80,11 +83,12 @@ export class AdminHeaderComponent extends Component {
                 <Navbar color="dark" light expand="md">
                     <NavbarBrand onClick={this.home}><font color="white">Home</font></NavbarBrand>
                     <Button color="link" onClick={this.addUserInfo}><font color="white">Add User Information.</font></Button>
+                    <Button color="link" onClick={this.showUserInfo}><font color="white">Show All Users.</font></Button>
                     <Button color="link" onClick={this.createUser}><font color="white">Create User</font></Button>
                     <Button color="link" onClick={this.createRole}><font color="white">Create Role</font></Button>
                     <Nav className="ml-auto" navbar>
-                       <div ref="message" onFocus={this.onFocusHandler}><font color="white">{this.props.message}</font></div>
-                       
+                        <div ref="message" onFocus={this.onFocusHandler}><font color="white">{this.props.message}</font></div>
+
                         <NavItem>
                             <Button color="link" onClick={this.logout.bind(this)}><font color="white">Logout</font></Button>
                         </NavItem>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { InputGroup, Input, Button } from 'reactstrap';
-
 import userService from '../services/user.js';
 import history from '../history';
 class LoginComponent extends Component {
@@ -36,7 +35,7 @@ class LoginComponent extends Component {
     handleChange(field, e) {
         let fields = this.state.fields;
         fields[field] = e.target.value;
-        this.setState({ fields });
+        this.setState({ fields: "" });
     }
 
     signIn() {
@@ -46,8 +45,8 @@ class LoginComponent extends Component {
         }
         let temp2 = "";
         const history = this.props.history;
-        
-        
+
+
         this.serve.authenticateUser(UserData, (err, res) => {
             if (err) {
                 history.push('/error');
@@ -55,28 +54,26 @@ class LoginComponent extends Component {
             else {
                 let res1 = JSON.parse(res);
 
-                console.log("Result",res1.UserName);
-                
+                console.log("Result", res1.UserName);
+
                 sessionStorage.setItem("authorization", `${res1.responseToken}`);
                 sessionStorage.setItem("roleId", `${res1.roleId}`);
                 sessionStorage.setItem("UserName", `${res1.UserName}`);
                 sessionStorage.setItem("UserId", `${res1.UserId}`);
-                console.log("Session Storage",sessionStorage.getItem("UserId"));
+                console.log("Session Storage", sessionStorage.getItem("UserId"));
                 if (res1.roleId === 1) {
                     history.push('/PersonalInfoAdmin');
-                    localStorage.setItem("AdminFlag",true);
+                    localStorage.setItem("AdminFlag", true);
                 }
                 else if (res1.roleId === 2) {
                     history.push('/');
                 }
-                else if(res1.roleId === 3){
-                    if(res1.PersonalUniqueId){
+                else if (res1.roleId === 3) {
+                    if (res1.PersonalUniqueId) {
                         history.push('/personalInfoUser');
-                    }else{
+                    } else {
                         history.push('/personalInfoUseredit');
                     }
-                    
-
                 }
             }
         });
@@ -103,7 +100,7 @@ class LoginComponent extends Component {
                             <tr>
                                 <td colSpan="2">
                                     <InputGroup>
-                                        <Input placeholder="username" type="text" name="username" value={this.state.username} onChange={this.onChange.bind(this)} onBlur={this.handleChange.bind(this, "username")} />
+                                        <Input placeholder="username" required type="text" name="username" value={this.state.username} onChange={this.onChange.bind(this)} onBlur={this.handleChange.bind(this, "username")} />
                                         <small style={{ color: "red" }}>{this.state.errors["username"]}</small>
                                     </InputGroup>
                                 </td>
@@ -111,7 +108,7 @@ class LoginComponent extends Component {
                             <tr>
                                 <td colSpan="2">
                                     <InputGroup>
-                                        <Input placeholder="password" type="text" name="password" onChange={this.onChange.bind(this)} value={this.state.password} />
+                                        <Input placeholder="password" required type="text" name="password" onChange={this.onChange.bind(this)} value={this.state.password} />
                                     </InputGroup>
                                 </td>
                             </tr>

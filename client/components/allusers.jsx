@@ -5,12 +5,13 @@ import {
 } from 'reactstrap';
 import { AdminHeaderComponent } from './header.jsx';
 import adminService from '../services/admin.js';
-class UserlistComponent extends Component {
+class AllUserlistComponent extends Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.state = {
             Users: [],
+            incompleteprofile: [],
             collapse: false,
             user1: "",
             searchText: ""
@@ -21,41 +22,10 @@ class UserlistComponent extends Component {
     toggle() {
         this.setState({ collapse: !this.state.collapse });
     }
-    approve(e) {
-        console.log("data", e);
-        if (e.PersonalUniqueId) {
-            this.serve.updateUser(e, (err, res) => {
-                if (err) {
-                    history.push('/error');
-                }
-                else {
-                    history.push('/PersonalInfoAdmin');
-                }
-            })
-        } else {
-            this.serve.saveData(e, (err, res) => {
-                if (err) {
-                    history.push('/error');
-                }
-                else {
-                    history.push('/PersonalInfoAdmin');
-                }
-            })
-        }
 
-    }
-    reject(e) {
-        this.serve.rejectData(e, (err, res) => {
-            if (err) {
-                history.push('/error');
-            }
-            else {
-                console.log("Response sent to user");
-            }
-        })
-    }
     componentDidMount() {
-        this.serve.getUserData((err, res) => {
+        // console.log("Hello");
+        this.serve.getAllUserData((err, res) => {
             if (err) {
                 history.push('/error');
             } else {
@@ -106,8 +76,7 @@ class UserlistComponent extends Component {
                                             Phone:&nbsp;{usr.Phone} &nbsp;&nbsp; Mobile:&nbsp;{usr.Mobile}<hr />
                                             Educational Status: &nbsp;{usr.EduStatus}&nbsp;&nbsp; Marital Status:&nbsp;{usr.MaritalStatus}<hr />
                                             Physical Disability:&nbsp;{usr.PhysicalDisability}&nbsp;&nbsp; Birth Sign:&nbsp;{usr.Birthsign}<hr />
-                                            <Button onClick={() => this.approve(usr)}>Approve</Button>&nbsp;&nbsp;&nbsp;
-                            <Button onClick={() => this.reject(usr)}>Reject</Button> <hr />
+                                            <hr />
                                         </CardText>
                                     </Collapse>
                                     <Button onClick={this.toggle.bind(this)}>More Details</Button>
@@ -124,4 +93,4 @@ class UserlistComponent extends Component {
 
 
 
-export default UserlistComponent;
+export default AllUserlistComponent;
