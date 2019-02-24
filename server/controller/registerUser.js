@@ -68,8 +68,10 @@ function registerUser(data, callback) {
                 Pincode: res.Pincode,
                 Phone: res.Phone,
                 Mobile: res.Mobile,
+                PhysicalDisability:res.PhysicalDisability,
                 MaritalStatus: res.MaritalStatus,
-                EduStatus: res.EduStatus
+                EduStatus: res.EduStatus,
+                Birthsign:res.Birthsign
             }
             console.log(userData);
             personModel.create(userData, function (err1, resp) {

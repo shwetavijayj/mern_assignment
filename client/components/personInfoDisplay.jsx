@@ -62,15 +62,15 @@ class displayPersonalInfoComponent extends Component {
                     Gender: data[0].Gender,
                     dob: data[0].DateOfBirth,
                     age: data[0].Age,
-                    addr1: data[0].Address.Addr1,
-                    addr2: data[0].Address.Addr2,
-                    addr3: data[0].Address.Addr3,
+                    addr1: data[0].Address.addr1,
+                    addr2: data[0].Address.addr2,
+                    addr3: data[0].Address.addr3,
                     City: data[0].City,
                     state1: data[0].State,
                     Pincode: data[0].Pincode,
                     Phone: data[0].Phone,
                     Mobile: data[0].Mobile,
-                    Birthsign: data[0].BirthSign,
+                    Birthsign: data[0].Birthsign,
                     PersonalUniqueId: data[0].PersonalUniqueId,
                     PhysicalDisability: data[0].PhysicalDisability
                 })
@@ -82,6 +82,7 @@ class displayPersonalInfoComponent extends Component {
     }
     onClickSave() {
         let userData = {
+            UserId:sessionStorage.getItem("UserId"),
             PersonalUniqueId: this.state.PersonalUniqueId,
             FullName: {
                 fname: this.state.firstname,
@@ -104,8 +105,7 @@ class displayPersonalInfoComponent extends Component {
             PhysicalDisability: this.state.PhysicalDisability,
             MaritalStatus: this.state.maritalstatus,
             EduStatus: this.state.eduStatus,
-            BirthSign: this.state.Birthsign,
-            UserName: ''
+            Birthsign: this.state.Birthsign
         }
         this.serve.updateUserData(userData, (err, res) => {
             if (err) {

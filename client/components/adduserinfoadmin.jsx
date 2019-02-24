@@ -19,6 +19,7 @@ class PersonalInfoAdminComponent extends Component {
             maritalstatus: ["Married", "Unmarried", "Divorced", "Widow", "Widower"],
             eduStatus: ["Masters", "Phd", "Graduate", "Under-Graduate", "HSC", "SSC", "Illiterate"],
             states: data,
+            UserId:"",
             firstname: "",
             middlename: "",
             lastname: "",
@@ -70,6 +71,7 @@ class PersonalInfoAdminComponent extends Component {
     }
     onClickSave() {
         let userData = {
+            UserId: sessionStorage.getItem("temporaryUserId"),
             FullName: {
                 fname: this.state.firstname,
                 mname: this.state.middlename,
@@ -91,8 +93,8 @@ class PersonalInfoAdminComponent extends Component {
             PhysicalDisability: this.state.PhysicalDisability,
             MaritalStatus: this.state.mstatus,
             EduStatus: this.state.edustatus,
-            BirthSign: this.state.Birthsign,
-            UserId: sessionStorage.getItem("UserId")
+            Birthsign: this.state.Birthsign
+            
         }
         this.serve.saveData1(userData, (err, res) => {
             if (err) {
@@ -152,6 +154,7 @@ class PersonalInfoAdminComponent extends Component {
                                             <div style={{ 'width': '33%', 'float': 'left' }}>
                                                 <Input placeholder="First Name" type="text" name="firstname" value={this.state.firstname} onChange={this.handleOnChange.bind(this)} />
                                                 <font color="white"><small>First Name</small></font>
+                                                {sessionStorage.setItem("temporaryUserId",usr.UserId)}
                                             </div>
                                             <div style={{ 'width': '32%', 'float': 'left' }}>
                                                 <Input placeholder="Middle Name" type="text" name="middlename" value={this.state.middlename} onChange={this.handleOnChange.bind(this)} />

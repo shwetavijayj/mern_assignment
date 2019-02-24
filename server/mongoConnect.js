@@ -47,7 +47,7 @@ var personalSchema = mongoose.Schema({
     Pincode: Number,
     Phone: Number,
     Mobile: Number,
-    PhisicalDisability: String,
+    PhysicalDisability: String,
     MaritalStatus: String,
     EduStatus: String,
     Birthsign: String

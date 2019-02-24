@@ -66,7 +66,7 @@ function getAllUsers(callback) {
                                         callback(error2);
                                     }
                                     else {
-                                        if ((result1.length != 0) || (result2.length != 0)) {
+                                        if ((result1.length == 0) && (result2.length == 0)) {
                                             finalResult.push(element);
                                             cb(null, finalResult);
                                         }

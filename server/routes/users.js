@@ -333,25 +333,25 @@ router.post('/registerUserTemp', function (req, response) {
   });
 })
 
-router.post('/updateUserTemp', function (req, response) {
-  checkToken.checkToken({ UserId: req.headers.userid, token: req.headers.authorization }, (err, res1) => {
-    if (err) {
-      res.send({ 'User not authenticated': err, statusCode: 500 });
-    }
-    else {
-      if (mongoose) {
-        updateUser.updateTempUserDetails(req.body, (err, res) => {
-          if (err) {
-            response.send({ 'Error in Updating data.': err, statusCode: 403 })
-          } else {
-            response.send({ msg: 'Data updated successfully', data: res });
-          }
-        })
-      } else {
-        response.send({ msg: 'not connected to database', statusCode: 500 });
-      }
-    }
-  })
-})
+// router.post('/updateUserTemp', function (req, response) {
+//   checkToken.checkToken({ UserId: req.headers.userid, token: req.headers.authorization }, (err, res1) => {
+//     if (err) {
+//       res.send({ 'User not authenticated': err, statusCode: 500 });
+//     }
+//     else {
+//       if (mongoose) {
+//         updateUser.updateTempUserDetails(req.body, (err, res) => {
+//           if (err) {
+//             response.send({ 'Error in Updating data.': err, statusCode: 403 })
+//           } else {
+//             response.send({ msg: 'Data updated successfully', data: res });
+//           }
+//         })
+//       } else {
+//         response.send({ msg: 'not connected to database', statusCode: 500 });
+//       }
+//     }
+//   })
+// })
 
 module.exports = router;
